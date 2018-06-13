@@ -58,7 +58,7 @@ var handlers = {
           this.response.speak("That is correct!");
         }
         else
-          this.response.speak("Sorry that is not the answer.");
+          this.response.speak("Sorry the correct answer is: " + ANSWERS[factIndex]);
 
       this.emit(":responseReady");
   }
