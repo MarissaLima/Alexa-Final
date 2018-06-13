@@ -59,7 +59,7 @@ var handlers = {
         }
         else
           this.response.speak("Sorry that is not the answer.");
-      //this.response.speak("Your flavor options are " + flav).listen("what is your favorite ice cream flavor?");
+
       this.emit(":responseReady");
   }
 };
