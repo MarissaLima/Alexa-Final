@@ -6,10 +6,11 @@
  * The Intent Schema, Custom Slots and Sample Utterances for this skill, as well
  * as testing instructions are located at https://github.com/mlh/mlh-localhost-hacking-with-alexa
  **/
+ 
+ //This code was used in our ice cream flavor lambda function
 
 'use strict';
 
-// TODO: replace with facts about yourself
 const QUESTIONS = [
   "How many medals have the United States won at the Summer Olympics?",
   "How many countries participated in the first Olympic Games?",
@@ -35,27 +36,32 @@ const ANSWERS = [
   "10",
   "72"
 ];
-
 var handlers = {
-  'LaunchRequest': function () { this.emit('GetFact'); },
-  'GetNewFactIntent': function () { this.emit('GetFact'); },
-  'GetFact': function() {
-    // Randomly select a fact from the array
-    const factIndex = Math.floor(Math.random() * QUESTIONS.length);
-    const randomFact = QUESTIONS[factIndex];
-
-    // Create speech output
-    const speechOutput = "Here's your trivia question: " + randomFact;
-    this.emit(':tellWithCard', speechOutput, "Major League Hacking (MLH) Facts", randomFact);
+  'LaunchRequest': function () 
+  { 
+      this.emit(':tell', "No intent by that name."); 
   },
-  'introIntent': function () 
+  'questionIntent': function () 
   {
-      const factIndex = Math.floor(Math.random() * QUESTIONS.length);
-      this.response.speak(QUESTIONS[factIndex])
-            .listen(QUESTIONS[factIndex]); 
+    const factIndex = Math.floor(Math.random()*QUESTIONS.length);
+    const randomFact = QUESTIONS[factIndex];
+      this.response.speak("Here is your trivia question: " + QUESTIONS[factIndex])
+            .listen("Here is your trivia question"); 
       this.emit(':responseReady');
-  }, 
-  
+  },
+  'triviaAnswerIntent': function () 
+  {
+    const factIndex = Math.floor(Math.random()*QUESTIONS.length);
+    const randomFact = QUESTIONS[factIndex];
+      let ans = this.event.request.intent.slots.answer.value;
+        if(ans == ANSWERS[factIndex]){
+          this.response.speak("That is correct!");
+        }
+        else
+          this.response.speak("Sorry that is not the answer.");
+      //this.response.speak("Your flavor options are " + flav).listen("what is your favorite ice cream flavor?");
+      this.emit(":responseReady");
+  }
 };
 
 
